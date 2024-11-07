@@ -44,10 +44,9 @@ Follow these steps to get your application running within IntelliJ IDEA:
 - Java: Mention the version you are using.
 - Any additional libraries or frameworks used in the project.
 
-## Demo
-
-
-
+-Demo
+![Lease.PNG](IMGS%2FLease.PNG)
+![Sale.PNG](IMGS%2FSale.PNG)
 ## Future Work
 
 Outline potential future enhancements or functionalities you might consider adding:

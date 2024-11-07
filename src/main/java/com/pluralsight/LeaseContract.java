@@ -1,35 +1,32 @@
 package com.pluralsight;
 
 public class LeaseContract extends Contract {
-    private double expectedEndingValue;
-    private double leaseFee;
+    private static final double ENDING_VALUE_PERCENTAGE = 0.5;
+    private static final double LEASE_FEE_RATE = 0.07;
+    private static final double FINANCE_RATE = 0.04;
 
     public LeaseContract(String date, String customerName, String customerEmail, Vehicle vehicleSold) {
         super(date, customerName, customerEmail, vehicleSold);
-        this.expectedEndingValue = vehicleSold.getPrice() * 0.5;
-        this.leaseFee = vehicleSold.getPrice() * 0.07;
+        this.totalPrice = calculateTotalPrice(vehicleSold.getPrice());
+        this.monthlyPayment = calculateMonthlyPayment(vehicleSold.getPrice());
     }
 
-    public double getExpectedEndingValue() {
-        return expectedEndingValue;
+    private double calculateTotalPrice(double vehiclePrice) {
+        return vehiclePrice * LEASE_FEE_RATE + (vehiclePrice * ENDING_VALUE_PERCENTAGE);
     }
 
-    public double getLeaseFee() {
-        return leaseFee;
+    private double calculateMonthlyPayment(double vehiclePrice) {
+        double financedAmount = vehiclePrice * (1 - ENDING_VALUE_PERCENTAGE);
+        return (financedAmount * (1 + FINANCE_RATE * 36 / 12)) / 36;
     }
 
     @Override
     public double getTotalPrice() {
-        return (getVehicleSold().getPrice() - expectedEndingValue) + leaseFee;
+        return totalPrice;
     }
 
     @Override
     public double getMonthlyPayment() {
-        int numberOfPayments = 36;
-        double interestRate = 4.0 / 1200;
-        double monthlyPayment = getTotalPrice() * (interestRate * Math.pow(1 + interestRate, numberOfPayments)) / (Math.pow(1 + interestRate, numberOfPayments) - 1);
-        monthlyPayment = Math.round(monthlyPayment * 100);
-        monthlyPayment /= 100;
         return monthlyPayment;
     }
 }
